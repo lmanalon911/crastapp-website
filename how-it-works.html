@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How It Works | Crast</title>
-  <meta name="description" content="How Crast works: intensity levels, manual mode, requirements, licensing, and updates.">
+  <meta name="description" content="How Crast works: running Auto Mode, dialing in Manual Mode, plus requirements, licensing, and updates.">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -32,55 +32,69 @@
       </div>
     </section>
 
-    <section style="padding-top:0;">
+    <section class="guide-section" style="padding-top:0;">
+      <div class="container guide-grid">
+        <div class="guide-text">
+          <span class="tag">Auto Mode</span>
+          <h2>Pick a level, then press Start</h2>
+          <p>Auto Mode runs on three ready-made intensity levels, each tuned to hold a steady target on its own.</p>
+          <ol class="steps">
+            <li>Press <kbd>Ctrl+Alt+H</kbd> to open the control panel, or right-click the tray icon.</li>
+            <li>Switch to the <strong>Auto Mode</strong> tab.</li>
+            <li>Pick <strong>Low</strong> (~45%), <strong>Mid</strong> (~65%), or <strong>High</strong> (~85%) overall activity.</li>
+            <li>Press <strong>Start</strong>. The panel hides and Crast starts running right away, no delay.</li>
+          </ol>
+          <p class="note">In a hurry? <kbd>Ctrl+Alt+1</kbd> / <kbd>Ctrl+Alt+2</kbd> / <kbd>Ctrl+Alt+3</kbd> jump straight to Low / Mid / High from anywhere, instantly, no need to open the panel at all.</p>
+        </div>
+        <div class="guide-image">
+          <img src="assets/screenshots/auto-mode.png" alt="Crast Auto Mode panel with Low, Mid, and High level buttons and a Start button">
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-section alt">
+      <div class="container guide-grid reverse">
+        <div class="guide-image">
+          <img src="assets/screenshots/manual-mode.png" alt="Crast Manual Mode panel with Overall, Mouse, and Keyboard sliders">
+        </div>
+        <div class="guide-text">
+          <span class="tag">Manual Mode</span>
+          <h2>Dial in your own numbers</h2>
+          <p>Manual Mode hands you the exact controls behind the presets, for when you want a specific number instead of a preset.</p>
+          <ol class="steps">
+            <li>Switch to the <strong>Manual Mode</strong> tab in the control panel.</li>
+            <li>Drag <strong>Overall</strong>, or set <strong>Mouse</strong> and <strong>Keyboard</strong> individually; Overall updates to match either way.</li>
+            <li>Toggle <strong>Constant</strong> (fixed) or <strong>Range</strong> (randomized), and set how much it can drift with <strong>Variation</strong>.</li>
+            <li>Set how often Chrome tabs switch, or drag it to 0 to turn that off entirely.</li>
+            <li>Press <strong>Start</strong>, or hide the panel with <kbd>Ctrl+Alt+G</kbd>. Either way, there's a short pause before anything actually starts moving, so you have time to step away.</li>
+          </ol>
+          <p class="note"><kbd>Ctrl+Alt+G</kbd> hides the panel and starts running, or brings it back to pause and adjust. <kbd>Ctrl+Alt+H</kbd> turns Manual Mode off completely.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <div class="container">
-        <div class="faq-list" id="faq-list">
-
-          <div class="faq-item">
-            <button class="faq-q">What does Crast actually do?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Crast runs quietly in the background and mimics normal computer activity: mouse movement, scrolling, keyboard taps, and browser tab switching. That keeps your measured activity level steady instead of just reflecting whatever you're literally doing second to second.</p></div>
+        <div class="section-head">
+          <h2>Good to know</h2>
+          <p>The quick facts on getting set up, licensing, and support.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <span class="tag">Requirements</span>
+            <h3>Windows 10 or 11</h3>
+            <p>Everything Crast needs is already built into Windows, so there's nothing extra to install. No admin rights needed.</p>
           </div>
-
-          <div class="faq-item">
-            <button class="faq-q">What's the difference between Low, Mid, High, and Manual?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Low, Mid, and High are one-tap presets targeting roughly 45%, 65%, and 85% overall activity respectively, each varying naturally within its band. Manual mode opens a control panel where you set exact Mouse %, Keyboard %, and Overall % yourself, plus how much random variation to allow.</p></div>
+          <div class="card">
+            <span class="tag">Licensing</span>
+            <h3>One key, your devices</h3>
+            <p>Crast uses a license key that works on the number of devices in your tier: Single, Dual, or Triple. See the Download page for details.</p>
           </div>
-
-          <div class="faq-item">
-            <button class="faq-q">Does it run visibly, or in the background?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Crast runs hidden with no visible window during normal use. It's controlled entirely through global hotkeys and a small system tray icon that always shows the current status. The Manual mode control panel only appears when you explicitly open it.</p></div>
+          <div class="card">
+            <span class="tag">Staying current</span>
+            <h3>Updates & support</h3>
+            <p>Use the in-app "Check for Update" button to grab the latest version, or "Report Issue" (or email support) if something's not working right.</p>
           </div>
-
-          <div class="faq-item">
-            <button class="faq-q">What are the system requirements?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Windows 10 or 11. Everything Crast needs is already built into Windows, so there's nothing extra to install. And no, you don't need admin rights.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q">How does licensing work?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Crast uses a license key. Each key works on a set number of devices depending on the tier you buy (Single, Dual, or Triple), and we check it against our activation server. Check the Download page for tier details.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q">How do I update to a new version?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Just hit the in-app "Check for Update" button. It grabs the latest release and installs it automatically, no reinstall needed.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q">Can I move my license to a new computer?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Your license works on however many devices your tier includes. Need to free up a slot, or have questions about your activation? Just reach out through the in-app Report Issue button or email support.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q">What's your refund policy?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Purchases are final, except where consumer protection law says otherwise. Full details are in the End User License Agreement.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q">How do I get help or report a problem?<span class="icon">+</span></button>
-            <div class="faq-a"><p>Use the in-app "Report Issue" button, or just email <a href="mailto:support@crastapp.com" style="color:var(--cyan);">support@crastapp.com</a>. Crast's independently published, so support's on a best-effort basis.</p></div>
-          </div>
-
         </div>
       </div>
     </section>
@@ -88,9 +102,9 @@
     <section>
       <div class="container">
         <div class="card" style="text-align:center; padding:48px 32px;">
-          <h2 style="margin:0 0 12px; font-size:1.5rem;">Still have questions?</h2>
-          <p style="color:var(--text-muted); margin:0 0 24px;">Email us and we'll get back to you.</p>
-          <a href="mailto:support@crastapp.com" class="btn btn-secondary">support@crastapp.com</a>
+          <h2 style="margin:0 0 12px; font-size:1.5rem;">Want the bigger picture?</h2>
+          <p style="color:var(--text-muted); margin:0 0 24px;">Head to the FAQ for why Crast exists, and the legal and ethical side of using it.</p>
+          <a href="faq.html" class="btn btn-secondary">Read the FAQ</a>
         </div>
       </div>
     </section>
@@ -107,19 +121,6 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    document.querySelectorAll('.faq-item').forEach(function (item) {
-      var q = item.querySelector('.faq-q');
-      q.addEventListener('click', function () {
-        var isOpen = item.classList.contains('open');
-        document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
-          if (openItem !== item) openItem.classList.remove('open');
-        });
-        item.classList.toggle('open', !isOpen);
-      });
-    });
-  </script>
 
 </body>
 </html>
