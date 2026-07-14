@@ -331,8 +331,7 @@ section { padding: 64px 0; }
   position: relative;
 }
 
-.tier.featured::before {
-  content: "Most popular";
+.tier-badge {
   position: absolute;
   top: -12px;
   left: 50%;
@@ -345,6 +344,7 @@ section { padding: 64px 0; }
   border-radius: 999px;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .tier h3 { margin: 0 0 4px; font-size: 1.15rem; }
