@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How It Works | Crast</title>
+  <meta name="description" content="How Crast works: intensity levels, manual mode, requirements, licensing, and updates.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="brand-dot"></span>
+        Crast
+      </a>
+      <nav class="nav-tabs">
+        <a href="index.html" class="nav-tab">Home</a>
+        <a href="how-it-works.html" class="nav-tab active">How It Works</a>
+        <a href="faq.html" class="nav-tab">FAQ</a>
+      </nav>
+      <a href="download.html" class="btn-download-nav">Download Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" style="padding-bottom:32px;">
+      <div class="container">
+        <h1 style="font-size:clamp(2rem,4vw,2.8rem);">How It Works</h1>
+        <p class="lead">Everything you need to know about how Crast works.</p>
+      </div>
+    </section>
+
+    <section style="padding-top:0;">
+      <div class="container">
+        <div class="faq-list" id="faq-list">
+
+          <div class="faq-item">
+            <button class="faq-q">What does Crast actually do?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Crast runs quietly in the background and mimics normal computer activity: mouse movement, scrolling, keyboard taps, and browser tab switching. That keeps your measured activity level steady instead of just reflecting whatever you're literally doing second to second.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">What's the difference between Low, Mid, High, and Manual?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Low, Mid, and High are one-tap presets targeting roughly 45%, 65%, and 85% overall activity respectively, each varying naturally within its band. Manual mode opens a control panel where you set exact Mouse %, Keyboard %, and Overall % yourself, plus how much random variation to allow.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">Does it run visibly, or in the background?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Crast runs hidden with no visible window during normal use. It's controlled entirely through global hotkeys and a small system tray icon that always shows the current status. The Manual mode control panel only appears when you explicitly open it.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">What are the system requirements?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Windows 10 or 11. Everything Crast needs is already built into Windows, so there's nothing extra to install. And no, you don't need admin rights.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">How does licensing work?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Crast uses a license key. Each key works on a set number of devices depending on the tier you buy (Single, Dual, or Triple), and we check it against our activation server. Check the Download page for tier details.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">How do I update to a new version?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Just hit the in-app "Check for Update" button. It grabs the latest release and installs it automatically, no reinstall needed.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">Can I move my license to a new computer?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Your license works on however many devices your tier includes. Need to free up a slot, or have questions about your activation? Just reach out through the in-app Report Issue button or email support.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">What's your refund policy?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Purchases are final, except where consumer protection law says otherwise. Full details are in the End User License Agreement.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">How do I get help or report a problem?<span class="icon">+</span></button>
+            <div class="faq-a"><p>Use the in-app "Report Issue" button, or just email <a href="mailto:support@crastapp.com" style="color:var(--cyan);">support@crastapp.com</a>. Crast's independently published, so support's on a best-effort basis.</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="card" style="text-align:center; padding:48px 32px;">
+          <h2 style="margin:0 0 12px; font-size:1.5rem;">Still have questions?</h2>
+          <p style="color:var(--text-muted); margin:0 0 24px;">Email us and we'll get back to you.</p>
+          <a href="mailto:support@crastapp.com" class="btn btn-secondary">support@crastapp.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>&copy; 2026 Crast App. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="how-it-works.html">How It Works</a>
+        <a href="faq.html">FAQ</a>
+        <a href="download.html">Download</a>
+        <a href="mailto:support@crastapp.com">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      var q = item.querySelector('.faq-q');
+      q.addEventListener('click', function () {
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+          if (openItem !== item) openItem.classList.remove('open');
+        });
+        item.classList.toggle('open', !isOpen);
+      });
+    });
+  </script>
+
+</body>
+</html>
