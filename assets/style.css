@@ -65,13 +65,11 @@ img, svg { max-width: 100%; }
   letter-spacing: -0.01em;
 }
 
-.brand-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 10px 1px var(--cyan);
+.brand-mark {
+  height: 26px;
+  width: auto;
   flex-shrink: 0;
+  display: block;
 }
 
 .nav-tabs {
