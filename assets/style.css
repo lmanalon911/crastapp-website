@@ -182,6 +182,14 @@ img, svg { max-width: 100%; }
   font-weight: 700;
 }
 
+.hero p.motto {
+  color: var(--cyan);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 22px;
+}
+
 .hero p.lead {
   max-width: 620px;
   margin: 0 auto 36px;
