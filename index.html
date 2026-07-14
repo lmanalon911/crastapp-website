@@ -3,34 +3,134 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crast App</title>
-  <style>
-    :root { color-scheme: dark light; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0b0d12;
-      color: #f2f2f2;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      color: #9aa0aa;
-      font-size: 1.1rem;
-    }
-  </style>
+  <title>Crast — Stay active, on your terms</title>
+  <meta name="description" content="Crast is a lightweight Windows utility that keeps your activity levels steady and predictable, with three intensity presets and a full manual control panel.">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <div>
-    <h1>Crast is coming soon.</h1>
-  </div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="brand-dot"></span>
+        Crast
+      </a>
+      <nav class="nav-tabs">
+        <a href="index.html" class="nav-tab active">Home</a>
+        <a href="faq.html" class="nav-tab">FAQ</a>
+      </nav>
+      <a href="download.html" class="btn-download-nav">Download Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow">Now available for Windows</span>
+        <h1>Stay active, on your terms.</h1>
+        <p class="lead">
+          Crast is a lightweight background utility that keeps your computer's activity
+          steady and predictable — pick an intensity level, or dial in exact numbers
+          yourself, and let it run.
+        </p>
+        <div class="hero-actions">
+          <a href="download.html" class="btn btn-primary">Download Now</a>
+          <a href="faq.html" class="btn btn-secondary">Read the FAQ</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="levels">
+      <div class="container">
+        <div class="section-head">
+          <h2>Three levels. One tap.</h2>
+          <p>Every level runs on the same proven engine — just aimed at a different target, and it naturally varies within that band so it never looks flat.</p>
+        </div>
+        <div class="levels">
+          <div class="level-card">
+            <span class="hotkey">Ctrl+Alt+1</span>
+            <h3>Low</h3>
+            <p><span class="pct">~45%</span> overall activity</p>
+            <div class="bar"><div class="bar-fill" style="width:45%"></div></div>
+          </div>
+          <div class="level-card">
+            <span class="hotkey">Ctrl+Alt+2</span>
+            <h3>Mid</h3>
+            <p><span class="pct">~65%</span> overall activity</p>
+            <div class="bar"><div class="bar-fill" style="width:65%"></div></div>
+          </div>
+          <div class="level-card">
+            <span class="hotkey">Ctrl+Alt+3</span>
+            <h3>High</h3>
+            <p><span class="pct">~85%</span> overall activity</p>
+            <div class="bar"><div class="bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>Built to feel natural</h2>
+          <p>Every part of Crast is designed to behave like ordinary, human activity — not a mechanical loop.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <span class="tag">Manual mode</span>
+            <h3>Full mixer control</h3>
+            <p>Open the control panel and set exact Mouse %, Keyboard %, and Overall % with sliders — plus a Constant/Range toggle for how much natural variation you want.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Browser sync</span>
+            <h3>Chrome tab switching</h3>
+            <p>Advances the active tab in your real, multi-tab Chrome windows on an interval you control — fully adjustable, or off entirely in Manual mode.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Persistence</span>
+            <h3>Remembers your setup</h3>
+            <p>Manual mode's slider values are saved automatically and restored the next time you launch — even after a full reboot.</p>
+          </div>
+          <div class="card">
+            <span class="tag">One tap on/off</span>
+            <h3>Global hotkeys</h3>
+            <p>Switch levels, open the mixer, or turn everything off from anywhere — no need to find a window first. A tray icon always shows the current status.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Runs quietly</span>
+            <h3>Hidden by default</h3>
+            <p>No visible window during normal operation. Everything is controlled through hotkeys and a small tray icon.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Always current</span>
+            <h3>Built-in updates</h3>
+            <p>A licensed install can check for and apply the latest version in one click, right from the app.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta">
+      <div class="container">
+        <div class="card" style="text-align:center; padding:56px 32px;">
+          <h2 style="margin:0 0 12px; font-size:1.7rem;">Ready to try Crast?</h2>
+          <p style="color:var(--text-muted); margin:0 0 28px;">Windows 10/11. No admin rights required.</p>
+          <a href="download.html" class="btn btn-primary">Download Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>&copy; 2026 Crast App. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="faq.html">FAQ</a>
+        <a href="download.html">Download</a>
+        <a href="mailto:support@crastapp.com">Support</a>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
