@@ -38,65 +38,41 @@
 
     <section style="padding-top:0;">
       <div class="container">
-        <div class="notice">
-          <span>🚧</span>
-          <span><strong>Coming soon!</strong> Purchasing and downloads aren't open to the public yet. Drop your email and we'll let you know the second Crast is ready.</span>
-        </div>
-
         <div class="tiers">
           <div class="tier">
             <h3>Single</h3>
             <div class="devices">1 device</div>
-            <div class="price">TBA</div>
+            <div class="price">&#8369;399 <span>one-time</span></div>
             <ul>
               <li>All intensity levels + Manual mixer</li>
               <li>Chrome tab-switching</li>
               <li>In-app updates</li>
               <li>Email support</li>
             </ul>
-            <button class="btn btn-disabled" disabled>Coming soon</button>
+            <button class="btn btn-primary" style="width:100%; box-sizing:border-box;" onclick="startDownloadFlow('single')">Download Now</button>
           </div>
 
           <div class="tier featured">
             <h3>Dual</h3>
             <div class="devices">2 devices</div>
-            <div class="price">TBA</div>
+            <div class="price">&#8369;599 <span>one-time</span></div>
             <ul>
               <li>Everything in Single</li>
               <li>Use on 2 computers with one key</li>
               <li>In-app updates</li>
               <li>Email support</li>
             </ul>
-            <button class="btn btn-disabled" disabled>Coming soon</button>
+            <button class="btn btn-primary" style="width:100%; box-sizing:border-box;" onclick="startDownloadFlow('dual')">Download Now</button>
           </div>
 
           <div class="tier">
-            <h3>Need more?</h3>
-            <div class="devices">3+ devices</div>
-            <p style="color:var(--text-muted); font-size:0.9rem; flex:1; margin:0 0 28px;">
-              Got a bigger setup in mind, or need more than two devices on one key? Reach out and we'll work out something that fits.
+            <h3>Need to wire up more devices?</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; flex:1; margin:16px 0 28px;">
+              Got a bigger setup in mind? Contact us and we'll help sort out the right number of licenses.
             </p>
-            <a href="mailto:support@crastapp.com" class="btn btn-secondary" style="width:100%; box-sizing:border-box;">Contact us</a>
+            <a href="#" id="contact-form-link" target="_blank" rel="noopener" class="btn btn-secondary" style="width:100%; box-sizing:border-box;">Contact Us</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Get notified at launch</h2>
-          <p>No spam, just one email when Crast's ready to download.</p>
-        </div>
-        <form class="card" style="max-width:520px; margin:0 auto; display:flex; gap:10px; padding:20px; flex-wrap:wrap;" onsubmit="return false;">
-          <input type="email" required placeholder="you@example.com"
-            style="flex:1; min-width:220px; background:var(--bg-raised); border:1px solid var(--border); border-radius:10px; padding:12px 14px; color:var(--text); font-size:0.95rem;">
-          <button type="submit" class="btn btn-primary" disabled title="Coming soon">Notify me</button>
-        </form>
-        <p style="text-align:center; color:var(--text-faint); font-size:0.85rem; margin-top:14px;">
-          Signup isn't wired up yet. Check back soon, or just email
-          <a href="mailto:support@crastapp.com" style="color:var(--cyan);">support@crastapp.com</a> directly.
-        </p>
       </div>
     </section>
   </main>
@@ -113,6 +89,43 @@
       </div>
     </div>
   </footer>
+
+  <div class="modal-overlay" id="license-modal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="Close" onclick="closeLicenseModal()">&times;</button>
+      <h3>Downloaded!</h3>
+      <p>Your Crast installer should be on its way. Next, grab your license key.</p>
+      <a id="license-modal-link" href="#" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%; box-sizing:border-box;">Click here to get your license key</a>
+    </div>
+  </div>
+
+  <script>
+    // TODO: replace these three placeholder URLs with the real Google Forms.
+    var FORM_URLS = {
+      single: "PASTE_SINGLE_DEVICE_FORM_URL_HERE",
+      dual: "PASTE_DUAL_DEVICE_FORM_URL_HERE",
+      contact: "PASTE_CONTACT_FORM_URL_HERE"
+    };
+    var DOWNLOAD_URL = "https://github.com/lmanalon911/crastapp-releases/releases/latest/download/DesktopUtility-Setup.zip";
+
+    document.getElementById('contact-form-link').href = FORM_URLS.contact;
+
+    function startDownloadFlow(tier) {
+      // Using window.open (not location.href) deliberately: assigning
+      // location.href to a cross-origin URL that responds with
+      // Content-Disposition: attachment still triggers a real navigation
+      // attempt, which can reload/reset this page before the modal below
+      // ever shows. Opening it in a separate context avoids touching this
+      // page's state at all.
+      window.open(DOWNLOAD_URL, '_blank');
+      document.getElementById('license-modal-link').href = FORM_URLS[tier];
+      document.getElementById('license-modal').hidden = false;
+    }
+
+    function closeLicenseModal() {
+      document.getElementById('license-modal').hidden = true;
+    }
+  </script>
 
 </body>
 </html>
