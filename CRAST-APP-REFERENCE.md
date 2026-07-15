@@ -168,6 +168,26 @@ Full text lives at `CrastApp-Licensing\EULA.md`; key points:
 - Requires a real, unlocked, logged-in Windows desktop session (depends on global hotkeys +
   UI Automation).
 
+## 9.1 Competitive positioning: named trackers + LazyWork comparison (2026-07-15)
+User explicitly authorized naming specific activity trackers (Hubstaff, Time Doctor, ActivTrak,
+DeskTime) and a direct competitor (LazyWork) in public site copy — a deliberate reversal of the
+earlier no-brand-names policy, made after researching LazyWork as a real, validated competitor
+in the same niche. Live page: `alternatives.html` ("Crast vs. Mouse Jigglers & LazyWork"),
+linked from main nav ("Compare"), the footer, and the FAQ's mouse-jiggler answer.
+- **Verified facts used in the comparison** (don't restate stale numbers without re-checking):
+  LazyWork is $9.99/month recurring, after a 7-day free trial, compatible with Hubstaff, Time
+  Doctor, Upwork and other trackers, simulates mouse/keyboard/app activity. Sourced from
+  LazyWork's own public pricing page as of 2026-07-15 — re-verify before reusing if this page is
+  ever revisited, pricing pages change.
+- Crast's own claims on that page (one-time price, free updates for life, 100% local) were
+  already true/established elsewhere on the site, not new claims invented for this comparison.
+- Page includes an explicit no-affiliation/trademark disclaimer for every named tracker and
+  LazyWork — standard, keep this if the page is ever edited.
+- **Why:** the earlier SEO pass found LazyWork ranking for exactly the keyword phrases Crast
+  should target ("mouse jiggler alternative," etc.) — proof those are real, searched terms, not
+  guesses. Comparison/alternative pages are a standard, effective SaaS content-marketing pattern
+  for capturing that search intent.
+
 ## 10. Site / infrastructure (for reference, not page content)
 
 - Production domain: **crastapp.com** (also serves `www.crastapp.com`), HTTPS enforced,
