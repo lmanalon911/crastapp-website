@@ -112,7 +112,9 @@ per-level intervals above are fixed constants and are never affected by this tog
   periodically after.
 - **Device tiers:** Single (1 device), Dual (2 devices), Triple (3 devices) — the license
   key format encodes which tier it belongs to.
-- **In-app "Check for Update"** — checks a version endpoint and can self-download/swap to
+- **Free updates for life** — a purchased license entitles the buyer to every future update at
+  no extra cost, for as long as they own the license; there's no separate maintenance/renewal
+  fee. **In-app "Check for Update"** checks a version endpoint and can self-download/swap to
   the latest build without the customer needing to reinstall from scratch.
 - **In-app "Report Issue"** — lets a customer send a support request without leaving the app.
 - **No refunds** except where law requires it — purchase implies the buyer has evaluated the
