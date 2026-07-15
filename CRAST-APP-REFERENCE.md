@@ -68,20 +68,30 @@ different targets:
 ## 4. Browser tab-switching (all modes)
 
 Every mode advances the active tab in the user's real, multi-tab browser windows — Chrome,
-Edge, Brave, Opera/Opera GX, Vivaldi, and Firefox — on an interval (25 seconds in the auto
-levels; user-adjustable, including fully off, in Manual mode). It only targets genuine
-browser windows with a tab strip — not browser-based app/PWA windows, and not other
-Chromium-based non-browser apps (e.g. Electron apps like Claude desktop). The browser briefly
-becomes the foreground window when a tab switches (an unavoidable side effect of how each
-browser exposes tab selection), then focus returns to whatever the user was doing.
+Edge, Brave, Opera/Opera GX, Vivaldi, and Firefox — on an interval. In the auto levels this is
+a fixed interval that scales with intensity (Low 40s, Mid 25s, High 15s); in Manual mode it's
+fully user-adjustable, including fully off. It only targets genuine browser windows with a
+tab strip — not browser-based app/PWA windows, and not other Chromium-based non-browser apps
+(e.g. Electron apps like Claude desktop). The browser briefly becomes the foreground window
+when a tab switches (an unavoidable side effect of how each browser exposes tab selection),
+then focus returns to whatever the user was doing.
 
 ## 4.1 App-switching (all modes)
 
-A second, independent feature: on its own interval (45 seconds in the auto levels;
-user-adjustable, including fully off, in Manual mode), Crast brings the next real open
-application window to the foreground — restoring it first if it was minimized — and leaves it
-focused until the next interval. This rotates through everything the user has open, not just
-browsers, so it reads as genuinely switching between applications rather than a brief flash.
+A second, independent feature: on its own interval (auto levels scale the same way as browser
+tab-switching — Low 75s, Mid 45s, High 25s; user-adjustable, including fully off, in Manual
+mode), Crast brings the next real open application window to the foreground — restoring it
+first if it was minimized — and leaves it focused until the next interval. This rotates
+through everything the user has open, not just browsers, so it reads as genuinely switching
+between applications rather than a brief flash.
+
+## 4.2 Constant/Range applies to both switch intervals too (Manual mode)
+
+Manual mode's existing Constant/Range toggle and Variation slider (see §2) now also govern the
+browser tab-switch and app-switch intervals, not just Mouse/Keyboard. Constant holds each
+interval at its exact slider value; Range redraws a fresh value, every time it fires, within
++/- Variation% of that value (a relative percentage of the seconds value). Auto mode's
+per-level intervals above are fixed constants and are never affected by this toggle.
 
 ## 5. System requirements & installation
 
