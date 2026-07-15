@@ -59,7 +59,7 @@
     <section class="guide-section alt">
       <div class="container guide-grid reverse">
         <div class="guide-image">
-          <img src="assets/screenshots/manual-mode.png" alt="Crast Manual Mode panel with Overall, Mouse, and Keyboard sliders">
+          <img src="assets/screenshots/manual-mode.png" alt="Crast Manual Mode panel with Overall, Mouse, Keyboard, Variation, Browser tab switch, and App switch sliders">
         </div>
         <div class="guide-text">
           <span class="tag">Manual Mode</span>
@@ -69,7 +69,8 @@
             <li>Switch to the <strong>Manual Mode</strong> tab in the control panel.</li>
             <li>Drag <strong>Overall</strong>, or set <strong>Mouse</strong> and <strong>Keyboard</strong> individually; Overall updates to match either way.</li>
             <li>Toggle <strong>Constant</strong> (fixed) or <strong>Range</strong> (randomized), and set how much it can drift with <strong>Variation</strong>.</li>
-            <li>Set how often Chrome tabs switch, or drag it to 0 to turn that off entirely.</li>
+            <li>Set how often browser tabs switch, or drag it to 0 to turn that off entirely.</li>
+            <li>Set how often Crast rotates to a different open app, or drag it to 0 to turn that off too.</li>
             <li>Press <strong>Start</strong>, or hide the panel with <kbd>Ctrl+Alt+G</kbd>. Either way, there's a short pause before anything actually starts moving, so you have time to step away.</li>
           </ol>
           <p class="note"><kbd>Ctrl+Alt+G</kbd> hides the panel and starts running, or brings it back to pause and adjust. <kbd>Ctrl+Alt+H</kbd> turns Manual Mode off completely.</p>
@@ -81,14 +82,14 @@
       <div class="container">
         <div class="section-head">
           <h2>What about screenshots?</h2>
-          <p>If your tracker takes periodic screenshots, tab switching and scrolling matter more than raw mouse or keyboard input, since a screenshot only shows whatever's on screen at that instant.</p>
+          <p>If your tracker takes periodic screenshots, tab switching, app switching, and scrolling matter more than raw mouse or keyboard input, since a screenshot only shows whatever's on screen at that instant.</p>
         </div>
         <div style="max-width:640px; margin:0 auto;">
           <ol class="steps">
-            <li>Make sure Chrome is the window actually showing on your screen. Tab switching only helps if Chrome is what's in the foreground.</li>
-            <li>Open a few real tabs you actually use for work, docs, dashboards, whatever's legitimate, so what shows up is stuff you'd normally have open anyway.</li>
-            <li>Crast rotates through those open tabs automatically, so a screenshot never catches the same tab sitting there twice in a row.</li>
-            <li>In <strong>Manual Mode</strong>, the Chrome tab switch slider sets exactly how many seconds go by between switches.</li>
+            <li>Open a few real tabs and apps you actually use for work, docs, dashboards, whatever's legitimate, so what shows up is stuff you'd normally have open anyway.</li>
+            <li>Crast rotates through those open browser tabs automatically, so a screenshot never catches the same tab sitting there twice in a row. It works across Chrome, Edge, Brave, Opera, Vivaldi, and Firefox, whichever one is actually in the foreground.</li>
+            <li>Crast also rotates which app is in the foreground, on its own separate timer, so a screenshot can catch you in your browser, your editor, a document, whatever else you have open, instead of the same window every time.</li>
+            <li>In <strong>Manual Mode</strong>, the browser tab switch and app switch sliders each set exactly how many seconds go by between switches, independently of each other.</li>
             <li>Crast scrolls the page too. Between a fresh tab and a different scroll position, back-to-back screenshots look like normal, active browsing instead of one frozen window.</li>
           </ol>
           <p class="note">Using <strong>Manual Mode</strong>? The control panel itself is a real, visible window while it's open, so if a screenshot would catch anything, it's that. Adjust your sliders and hit <strong>Start</strong> (or <kbd>Ctrl+Alt+G</kbd>) as soon as you're done. The panel disappears the instant you do, and the 10-second pause before anything starts moving means even a screenshot fired right around then won't catch the panel on screen.</p>
