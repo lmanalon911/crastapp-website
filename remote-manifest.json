@@ -1,0 +1,12 @@
+{
+  "name": "Crast Remote",
+  "short_name": "Crast Remote",
+  "start_url": "/remote.html",
+  "display": "standalone",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    { "src": "/assets/favicon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/favicon-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

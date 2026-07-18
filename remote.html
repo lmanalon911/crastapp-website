@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Crast Remote</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Crast Remote">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" href="favicon.ico">
+  <link rel="manifest" href="remote-manifest.json">
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: #151822;
+      --border: rgba(255,255,255,0.08);
+      --text: #f2f4f8;
+      --text-muted: #9aa3b8;
+      --cyan: #22d3ee;
+      --cyan-dim: rgba(34,211,238,0.12);
+      --cyan-border: rgba(34,211,238,0.35);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px 16px 40px;
+    }
+    h1 { font-size: 1.25rem; margin: 0 0 4px; }
+    .subtitle { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 20px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .status-row { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #555; flex-shrink: 0; }
+    .dot.online { background: #2ea043; }
+    .dot.stale { background: #d9a441; }
+    .status-label { color: var(--text-muted); }
+    .status-detail { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tab-btn {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .tab-btn.active { background: var(--cyan-dim); border-color: var(--cyan-border); color: var(--cyan); }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .level-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .level-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 16px 4px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .level-btn.current { background: var(--cyan-dim); border-color: var(--cyan-border); color: var(--cyan); }
+    .slider-row { margin-bottom: 16px; }
+    .slider-row label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    .slider-row label span.val { color: var(--text); font-weight: 600; }
+    input[type=range] { width: 100%; accent-color: var(--cyan); }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .toggle-row label { font-size: 0.85rem; color: var(--text-muted); }
+    .btn {
+      display: block;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .btn-primary { background: var(--cyan); color: #04141a; }
+    .btn-off { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border); margin-top: 16px; }
+    .btn:disabled { opacity: 0.5; }
+    #gate {
+      max-width: 340px;
+      margin: 60px auto 0;
+      text-align: center;
+    }
+    #gate p { color: var(--text-muted); font-size: 0.9rem; }
+    #gate input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+    #app { display: none; max-width: 480px; margin: 0 auto; }
+    .change-secret { color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-top: 20px; text-decoration: underline; }
+    .send-toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: var(--card); border: 1px solid var(--cyan-border); color: var(--cyan);
+      padding: 10px 18px; border-radius: 999px; font-size: 0.85rem; opacity: 0; transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .send-toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div id="gate">
+    <h1>Crast Remote</h1>
+    <p>Enter the Control Secret shown when this was set up on your PC (also saved in <code>crast-control.cfg</code>).</p>
+    <input type="password" id="secretInput" placeholder="Control Secret" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button class="btn btn-primary" id="saveSecretBtn">Save & Connect</button>
+  </div>
+
+  <div id="app">
+    <h1>Crast Remote</h1>
+    <p class="subtitle">Controls the Crast App instance running on your PC.</p>
+
+    <div class="card">
+      <div class="status-row">
+        <span class="dot" id="statusDot"></span>
+        <span class="status-label" id="statusLabel">Connecting...</span>
+      </div>
+      <div class="status-detail" id="statusDetail"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tabAutoBtn">Auto</button>
+      <button class="tab-btn" id="tabManualBtn">Manual</button>
+    </div>
+
+    <div class="panel active" id="panelAuto">
+      <div class="level-grid">
+        <button class="level-btn" id="btnLow">Low</button>
+        <button class="level-btn" id="btnMid">Mid</button>
+        <button class="level-btn" id="btnHigh">High</button>
+      </div>
+    </div>
+
+    <div class="panel" id="panelManual">
+      <div class="card">
+        <div class="slider-row">
+          <label>Mouse <span class="val" id="mouseVal">70%</span></label>
+          <input type="range" id="mouseSlider" min="0" max="100" value="70">
+        </div>
+        <div class="slider-row">
+          <label>Keyboard <span class="val" id="keyVal">30%</span></label>
+          <input type="range" id="keySlider" min="0" max="100" value="30">
+        </div>
+        <div class="slider-row">
+          <label>Browser tab switch <span class="val" id="browserVal">25s</span></label>
+          <input type="range" id="browserSlider" min="0" max="120" value="25">
+        </div>
+        <div class="slider-row">
+          <label>App switch <span class="val" id="appSwitchVal">45s</span></label>
+          <input type="range" id="appSwitchSlider" min="0" max="300" value="45">
+        </div>
+        <div class="toggle-row">
+          <label>Range mode (vs. Constant)</label>
+          <input type="checkbox" id="rangeToggle" checked>
+        </div>
+        <div class="slider-row">
+          <label>Variation <span class="val" id="variationVal">15</span></label>
+          <input type="range" id="variationSlider" min="0" max="30" value="15">
+        </div>
+      </div>
+      <button class="btn btn-primary" id="applyManualBtn">Apply & Run Manual</button>
+    </div>
+
+    <button class="btn btn-off" id="offBtn">Turn Off</button>
+    <div class="change-secret" id="changeSecretLink">Change control secret</div>
+  </div>
+
+  <div class="send-toast" id="toast"></div>
+
+  <script>
+    // Same public Apps Script deployment CrastApp.ps1's ActivationUrl already
+    // points at (control_set/control_get/control_report live alongside
+    // activate/mint/version there) - NOT the separate "Only myself" admin
+    // deployment, since this page authenticates via CONTROL_SECRET instead
+    // of a Google login.
+    var CONTROL_URL = "https://script.google.com/macros/s/AKfycbyamcFFLCkkR10X5HIQZzQ9ttH4uvCqYncHSIRETw9RhlEZN_EKjp2OqnP1_juwdm62/exec";
+    var SECRET_KEY = "crastRemoteControlSecret";
+
+    var secret = localStorage.getItem(SECRET_KEY);
+    var pollTimer = null;
+
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 1800);
+    }
+
+    function controlGet() {
+      var url = CONTROL_URL + "?action=control_get&controlSecret=" + encodeURIComponent(secret);
+      return fetch(url).then(function (r) { return r.json(); });
+    }
+
+    function controlSet(command) {
+      var body = JSON.stringify({ action: "control_set", controlSecret: secret, command: command });
+      // text/plain avoids a CORS preflight against Apps Script - the server
+      // still JSON.parses the body regardless of the declared content-type.
+      return fetch(CONTROL_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: body
+      }).then(function (r) { return r.json(); });
+    }
+
+    function sendCommand(command, label) {
+      showToast("Sending...");
+      controlSet(command).then(function (res) {
+        if (res && res.ok) { showToast(label + " sent"); refreshStatus(); }
+        else { showToast("Failed to send"); }
+      }).catch(function () { showToast("Network error"); });
+    }
+
+    function highlightLevel(level) {
+      ["Low", "Mid", "High"].forEach(function (l) {
+        document.getElementById('btn' + l).classList.toggle('current', l === level);
+      });
+    }
+
+    function refreshStatus() {
+      controlGet().then(function (res) {
+        var dot = document.getElementById('statusDot');
+        var label = document.getElementById('statusLabel');
+        var detail = document.getElementById('statusDetail');
+        if (!res || !res.ok) {
+          dot.className = 'dot';
+          label.textContent = 'Cannot reach server';
+          return;
+        }
+        var status = {};
+        try { status = JSON.parse(res.status || "{}"); } catch (e) {}
+
+        var lastSeenMs = res.lastSeenUtc ? (Date.now() - new Date(res.lastSeenUtc).getTime()) : null;
+        if (lastSeenMs === null) {
+          dot.className = 'dot';
+          label.textContent = 'PC never connected yet';
+        } else {
+          var secsAgo = Math.max(0, Math.round(lastSeenMs / 1000));
+          if (secsAgo < 30) { dot.className = 'dot online'; }
+          else { dot.className = 'dot stale'; }
+          label.textContent = secsAgo < 60 ? ('Last seen ' + secsAgo + 's ago') : ('Last seen ' + Math.round(secsAgo / 60) + 'm ago');
+        }
+
+        if (status.active) {
+          detail.textContent = "Currently running: " + status.level;
+          highlightLevel(status.level === 'Low' || status.level === 'Mid' || status.level === 'High' ? status.level : null);
+        } else {
+          detail.textContent = "Currently: Off";
+          highlightLevel(null);
+        }
+      }).catch(function () {
+        document.getElementById('statusDot').className = 'dot';
+        document.getElementById('statusLabel').textContent = 'Network error';
+      });
+    }
+
+    function bindSlider(sliderId, valId, suffix) {
+      var slider = document.getElementById(sliderId);
+      var valEl = document.getElementById(valId);
+      slider.addEventListener('input', function () {
+        valEl.textContent = slider.value + suffix;
+      });
+    }
+
+    function initApp() {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+
+      document.getElementById('tabAutoBtn').addEventListener('click', function () {
+        document.getElementById('tabAutoBtn').classList.add('active');
+        document.getElementById('tabManualBtn').classList.remove('active');
+        document.getElementById('panelAuto').classList.add('active');
+        document.getElementById('panelManual').classList.remove('active');
+      });
+      document.getElementById('tabManualBtn').addEventListener('click', function () {
+        document.getElementById('tabManualBtn').classList.add('active');
+        document.getElementById('tabAutoBtn').classList.remove('active');
+        document.getElementById('panelManual').classList.add('active');
+        document.getElementById('panelAuto').classList.remove('active');
+      });
+
+      document.getElementById('btnLow').addEventListener('click', function () { sendCommand({ mode: "Low" }, "Low"); });
+      document.getElementById('btnMid').addEventListener('click', function () { sendCommand({ mode: "Mid" }, "Mid"); });
+      document.getElementById('btnHigh').addEventListener('click', function () { sendCommand({ mode: "High" }, "High"); });
+      document.getElementById('offBtn').addEventListener('click', function () { sendCommand({ mode: "Off" }, "Off"); });
+
+      bindSlider('mouseSlider', 'mouseVal', '%');
+      bindSlider('keySlider', 'keyVal', '%');
+      bindSlider('browserSlider', 'browserVal', 's');
+      bindSlider('appSwitchSlider', 'appSwitchVal', 's');
+      bindSlider('variationSlider', 'variationVal', '');
+
+      document.getElementById('applyManualBtn').addEventListener('click', function () {
+        var command = {
+          mode: "Manual",
+          mouse: parseInt(document.getElementById('mouseSlider').value, 10),
+          key: parseInt(document.getElementById('keySlider').value, 10),
+          browserSec: parseInt(document.getElementById('browserSlider').value, 10),
+          appSwitchSec: parseInt(document.getElementById('appSwitchSlider').value, 10),
+          rangeMode: document.getElementById('rangeToggle').checked,
+          variation: parseInt(document.getElementById('variationSlider').value, 10)
+        };
+        sendCommand(command, "Manual settings");
+      });
+
+      document.getElementById('changeSecretLink').addEventListener('click', function () {
+        localStorage.removeItem(SECRET_KEY);
+        location.reload();
+      });
+
+      refreshStatus();
+      pollTimer = setInterval(refreshStatus, 6000);
+    }
+
+    document.getElementById('saveSecretBtn').addEventListener('click', function () {
+      var v = document.getElementById('secretInput').value.trim();
+      if (!v) return;
+      secret = v;
+      localStorage.setItem(SECRET_KEY, secret);
+      initApp();
+    });
+
+    if (secret) { initApp(); }
+  </script>
+</body>
+</html>

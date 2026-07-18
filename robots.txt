@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 Disallow: /admin-manifest.json
+Disallow: /remote.html
+Disallow: /remote-manifest.json
 
 Sitemap: https://crastapp.com/sitemap.xml
