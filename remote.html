@@ -42,6 +42,16 @@
       padding: 16px;
       margin-bottom: 16px;
     }
+    .state-big { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.3px; }
+    .state-big.on { color: var(--cyan); }
+    .state-big.off { color: var(--text-muted); }
+    .confirm-bar {
+      margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 600;
+    }
+    .confirm-bar.waiting { background: rgba(217,164,65,0.12); border: 1px solid rgba(217,164,65,0.4); color: #d9a441; }
+    .confirm-bar.ok { background: rgba(46,160,67,0.12); border: 1px solid rgba(46,160,67,0.45); color: #4ac26b; }
+    .confirm-bar.bad { background: rgba(248,81,73,0.12); border: 1px solid rgba(248,81,73,0.45); color: #f85149; }
     .status-row { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     .dot { width: 9px; height: 9px; border-radius: 50%; background: #555; flex-shrink: 0; }
     .dot.online { background: #2ea043; }
@@ -110,13 +120,6 @@
     }
     #app { display: none; max-width: 480px; margin: 0 auto; }
     .change-secret { color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-top: 20px; text-decoration: underline; }
-    .send-toast {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: var(--card); border: 1px solid var(--cyan-border); color: var(--cyan);
-      padding: 10px 18px; border-radius: 999px; font-size: 0.85rem; opacity: 0; transition: opacity 0.2s;
-      pointer-events: none;
-    }
-    .send-toast.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -132,11 +135,13 @@
     <p class="subtitle">Controls the Crast App instance running on your PC.</p>
 
     <div class="card">
+      <div class="state-big" id="stateBig">—</div>
       <div class="status-row">
         <span class="dot" id="statusDot"></span>
         <span class="status-label" id="statusLabel">Connecting...</span>
       </div>
       <div class="status-detail" id="statusDetail"></div>
+      <div class="confirm-bar" id="confirmBar" hidden></div>
     </div>
 
     <div class="tabs">
@@ -186,8 +191,6 @@
     <div class="change-secret" id="changeSecretLink">Change control secret</div>
   </div>
 
-  <div class="send-toast" id="toast"></div>
-
   <script>
     // Same public Apps Script deployment CrastApp.ps1's ActivationUrl already
     // points at (control_set/control_get/control_report live alongside
@@ -199,13 +202,6 @@
 
     var secret = localStorage.getItem(SECRET_KEY);
     var pollTimer = null;
-
-    function showToast(msg) {
-      var t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(function () { t.classList.remove('show'); }, 1800);
-    }
 
     function controlGet() {
       var url = CONTROL_URL + "?action=control_get&controlSecret=" + encodeURIComponent(secret);
@@ -223,12 +219,42 @@
       }).then(function (r) { return r.json(); });
     }
 
+    // --- Confirmation tracking -------------------------------------------------
+    // "Sent" only means the server accepted it. Real confirmation = the PC itself
+    // reports back that it is now in the requested state. We track what we asked
+    // for, poll faster while waiting, and only then show a confirmed state.
+    var awaiting = null;        // { mode, label, since }
+    var AWAIT_TIMEOUT_MS = 45000;
+
+    function setConfirmBar(cls, text) {
+      var bar = document.getElementById('confirmBar');
+      if (!cls) { bar.hidden = true; return; }
+      bar.hidden = false;
+      bar.className = 'confirm-bar ' + cls;
+      bar.textContent = text;
+    }
+
+    // Does the PC's reported status satisfy what we asked for?
+    function statusMatches(status, mode) {
+      if (!status) return false;
+      if (mode === 'Off') return status.active === false;
+      return status.active === true && status.level === mode;
+    }
+
     function sendCommand(command, label) {
-      showToast("Sending...");
+      awaiting = { mode: command.mode, label: label, since: Date.now() };
+      setConfirmBar('waiting', 'Sent — waiting for your PC to confirm…');
       controlSet(command).then(function (res) {
-        if (res && res.ok) { showToast(label + " sent"); refreshStatus(); }
-        else { showToast("Failed to send"); }
-      }).catch(function () { showToast("Network error"); });
+        if (!res || !res.ok) {
+          awaiting = null;
+          setConfirmBar('bad', 'Could not send the command.');
+          return;
+        }
+        schedulePoll(1500);   // poll faster while awaiting confirmation
+      }).catch(function () {
+        awaiting = null;
+        setConfirmBar('bad', 'Network error — command not sent.');
+      });
     }
 
     function highlightLevel(level) {
@@ -238,10 +264,11 @@
     }
 
     function refreshStatus() {
-      controlGet().then(function (res) {
+      return controlGet().then(function (res) {
         var dot = document.getElementById('statusDot');
         var label = document.getElementById('statusLabel');
         var detail = document.getElementById('statusDetail');
+        var big = document.getElementById('stateBig');
         if (!res || !res.ok) {
           dot.className = 'dot';
           label.textContent = 'Cannot reach server';
@@ -251,27 +278,60 @@
         try { status = JSON.parse(res.status || "{}"); } catch (e) {}
 
         var lastSeenMs = res.lastSeenUtc ? (Date.now() - new Date(res.lastSeenUtc).getTime()) : null;
+        var pcOnline = lastSeenMs !== null && lastSeenMs < 150000;
         if (lastSeenMs === null) {
           dot.className = 'dot';
           label.textContent = 'PC never connected yet';
         } else {
           var secsAgo = Math.max(0, Math.round(lastSeenMs / 1000));
-          if (secsAgo < 30) { dot.className = 'dot online'; }
-          else { dot.className = 'dot stale'; }
+          dot.className = pcOnline ? 'dot online' : 'dot stale';
           label.textContent = secsAgo < 60 ? ('Last seen ' + secsAgo + 's ago') : ('Last seen ' + Math.round(secsAgo / 60) + 'm ago');
         }
 
-        if (status.active) {
-          detail.textContent = "Currently running: " + status.level;
-          highlightLevel(status.level === 'Low' || status.level === 'Mid' || status.level === 'High' ? status.level : null);
+        // Big, unambiguous ON/OFF state straight from what the PC reported.
+        if (!pcOnline) {
+          big.textContent = 'PC offline';
+          big.className = 'state-big off';
+        } else if (status.active) {
+          big.textContent = 'ON — ' + (status.level || '?');
+          big.className = 'state-big on';
         } else {
-          detail.textContent = "Currently: Off";
+          big.textContent = 'OFF';
+          big.className = 'state-big off';
+        }
+
+        if (status.active) {
+          detail.textContent = 'Crast is running on your PC.';
+          highlightLevel(['Low','Mid','High'].indexOf(status.level) >= 0 ? status.level : null);
+        } else {
+          detail.textContent = 'Crast is not running.';
           highlightLevel(null);
+        }
+
+        // Confirmation: only clear once the PC ITSELF reports the requested state.
+        if (awaiting) {
+          if (pcOnline && statusMatches(status, awaiting.mode)) {
+            setConfirmBar('ok', '✓ Confirmed by your PC: ' + (awaiting.mode === 'Off' ? 'turned OFF' : awaiting.mode + ' is running'));
+            awaiting = null;
+          } else if (Date.now() - awaiting.since > AWAIT_TIMEOUT_MS) {
+            setConfirmBar('bad', 'No confirmation from your PC — it may be asleep or offline.');
+            awaiting = null;
+          }
         }
       }).catch(function () {
         document.getElementById('statusDot').className = 'dot';
         document.getElementById('statusLabel').textContent = 'Network error';
       });
+    }
+
+    // Adaptive polling: fast while awaiting a confirmation, relaxed otherwise.
+    function schedulePoll(delayMs) {
+      if (pollTimer) { clearTimeout(pollTimer); }
+      pollTimer = setTimeout(function tick() {
+        refreshStatus().then(function () {
+          schedulePoll(awaiting ? 2000 : 7000);
+        });
+      }, delayMs);
     }
 
     function bindSlider(sliderId, valId, suffix) {
@@ -329,7 +389,7 @@
       });
 
       refreshStatus();
-      pollTimer = setInterval(refreshStatus, 6000);
+      schedulePoll(7000);
     }
 
     document.getElementById('saveSecretBtn').addEventListener('click', function () {
